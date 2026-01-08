@@ -15,10 +15,12 @@ const HabitStats: React.FC = () => {
     dispatch(fetchHabits());
   }, [dispatch]);
 
-  const gotCompletedToday = () => {
+  const getCompletedToday = () => {
     const today = new Date().toISOString().split("T")[0];
-    return habits.filter((habit) => habit.completedDates.includes(today))
-      .length;
+    return habits.reduce(
+      (count, habit) => count + (habit.completedDates.includes(today) ? 1 : 0),
+      0
+    );
   };
 
   const getStreak = (habit: Habit) => {
@@ -27,7 +29,7 @@ const HabitStats: React.FC = () => {
     while (true) {
       const dateString = currentDate.toISOString().split("T")[0];
       if (habit.completedDates.includes(dateString)) {
-        streak = streak + 1;
+        streak++;
         currentDate.setDate(currentDate.getDate() - 1);
       } else {
         break;
@@ -36,7 +38,10 @@ const HabitStats: React.FC = () => {
     return streak;
   };
 
-  const getLongestStreak = () => Math.max(...habits.map(getStreak));
+  const getLongestStreak = () => {
+    if (habits.length === 0) return 0;
+    return Math.max(...habits.map(getStreak));
+  };
 
   if (isLoading) {
     return <LinearProgress />;
@@ -53,7 +58,7 @@ const HabitStats: React.FC = () => {
       </Typography>
       <Typography variant="body1">Total Habits: {habits.length}</Typography>
       <Typography variant="body1">
-        Completed Today: {gotCompletedToday()}
+        Completed Today: {getCompletedToday()}
       </Typography>
       <Typography variant="body1">
         Longest Streak: {getLongestStreak()}

@@ -11,6 +11,8 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../store/store";
 import { addHabit } from "../store/habitSlice";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import DateRangeIcon from "@mui/icons-material/DateRange";
 
 const AddHabitForm: React.FC = () => {
   const [name, setName] = useState("");
@@ -20,11 +22,15 @@ const AddHabitForm: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (name.trim()) {
-      dispatch(addHabit({
-        name,
-        frequency
-      }))
+      dispatch(
+        addHabit({
+          name,
+          frequency
+        })
+      );
     }
+    setName(""); // Clear the name field
+    setFrequency("daily"); // Reset frequency to default
   };
 
   return (
@@ -43,14 +49,21 @@ const AddHabitForm: React.FC = () => {
           placeholder="Enter habit name"
           fullWidth
         />
-        <FormControl fullWidth>
-          <InputLabel>Frequency</InputLabel>
+        <FormControl fullWidth variant="filled">
+          <InputLabel id="frequency-label">Frequency</InputLabel>
           <Select
+            labelId="frequency-label"
             value={frequency}
             onChange={(e) => setFrequency(e.target.value as "daily" | "weekly")}
           >
-            <MenuItem value="daily">Daily</MenuItem>
-            <MenuItem value="weekly">Weekly</MenuItem>
+            <MenuItem value="daily">
+              <CalendarTodayIcon fontSize="small" sx={{ mr: 1 }} />
+              Daily
+            </MenuItem>
+            <MenuItem value="weekly">
+              <DateRangeIcon fontSize="small" sx={{ mr: 1 }} />
+              Weekly
+            </MenuItem>
           </Select>
         </FormControl>
         <Button type="submit" variant="contained" color="primary">
