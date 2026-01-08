@@ -47,7 +47,15 @@ const HabitList: React.FC = () => {
               </Typography>
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: { xs: "column", sm: "row" },
+                  justifyContent: "flex-end",
+                  gap: 1,
+                  alignItems: { xs: "stretch", sm: "center" },
+                }}
+              >
                 <Button
                   variant="outlined"
                   color={
