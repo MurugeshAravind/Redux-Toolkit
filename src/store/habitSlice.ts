@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, type PayloadAction, createSelector } from "@reduxjs/toolkit";
 
 export interface Habit {
   id: string;
@@ -91,6 +91,49 @@ const habitSlice = createSlice({
     }) 
   }
 });
+
+// Selectors
+const selectHabitsState = (state: { habits: HabitState }) => state.habits;
+
+export const selectHabits = createSelector(
+  [selectHabitsState],
+  (habitState) => habitState.habits
+);
+
+export const selectHabitStats = createSelector(
+  [selectHabits],
+  (habits) => {
+    const today = new Date().toISOString().split("T")[0];
+    
+    const completedToday = habits.reduce(
+      (count, habit) => count + (habit.completedDates.includes(today) ? 1 : 0),
+      0
+    );
+
+    const getStreak = (habit: Habit) => {
+      let streak = 0;
+      const currentDate = new Date();
+      while (true) {
+        const dateString = currentDate.toISOString().split("T")[0];
+        if (habit.completedDates.includes(dateString)) {
+          streak++;
+          currentDate.setDate(currentDate.getDate() - 1);
+        } else {
+          break;
+        }
+      }
+      return streak;
+    };
+
+    const longestStreak = habits.length === 0 ? 0 : Math.max(...habits.map(getStreak));
+
+    return {
+      total: habits.length,
+      completedToday,
+      longestStreak
+    };
+  }
+);
 
 export const { addHabit, toggleHabit, removeHabit } = habitSlice.actions;
 export default habitSlice.reducer;

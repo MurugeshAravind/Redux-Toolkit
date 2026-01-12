@@ -4,6 +4,7 @@ import { Container, Typography } from "@mui/material";
 import AddHabitForm from "./components/AddHabitForm";
 import HabitList from "./components/HabitList";
 import HabitStats from "./components/HabitStats";
+import DebugState from "./components/DebugState";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <AddHabitForm />
         <HabitList />
         <HabitStats />
+        {window.location.hostname === "localhost" && <DebugState />}
       </Container>
     </Provider>
   );

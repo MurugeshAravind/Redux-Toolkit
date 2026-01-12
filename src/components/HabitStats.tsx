@@ -1,47 +1,21 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import type { AppDispatch, RootState } from "../store/store";
-import { fetchHabits, type Habit } from "../store/habitSlice";
+import { fetchHabits, selectHabitStats } from "../store/habitSlice";
 import Paper from "@mui/material/Paper";
 import { LinearProgress, Typography } from "@mui/material";
 
 const HabitStats: React.FC = () => {
-  const { habits, isLoading, error } = useSelector(
+  const { isLoading, error } = useSelector(
     (state: RootState) => state.habits
   );
+  const { total, completedToday, longestStreak } = useSelector(selectHabitStats);
+  
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     dispatch(fetchHabits());
   }, [dispatch]);
-
-  const getCompletedToday = () => {
-    const today = new Date().toISOString().split("T")[0];
-    return habits.reduce(
-      (count, habit) => count + (habit.completedDates.includes(today) ? 1 : 0),
-      0
-    );
-  };
-
-  const getStreak = (habit: Habit) => {
-    let streak = 0;
-    const currentDate = new Date();
-    while (true) {
-      const dateString = currentDate.toISOString().split("T")[0];
-      if (habit.completedDates.includes(dateString)) {
-        streak++;
-        currentDate.setDate(currentDate.getDate() - 1);
-      } else {
-        break;
-      }
-    }
-    return streak;
-  };
-
-  const getLongestStreak = () => {
-    if (habits.length === 0) return 0;
-    return Math.max(...habits.map(getStreak));
-  };
 
   if (isLoading) {
     return <LinearProgress />;
@@ -56,12 +30,12 @@ const HabitStats: React.FC = () => {
       <Typography variant="h6" gutterBottom>
         Habit Statistics
       </Typography>
-      <Typography variant="body1">Total Habits: {habits.length}</Typography>
+      <Typography variant="body1">Total Habits: {total}</Typography>
       <Typography variant="body1">
-        Completed Today: {getCompletedToday()}
+        Completed Today: {completedToday}
       </Typography>
       <Typography variant="body1">
-        Longest Streak: {getLongestStreak()}
+        Longest Streak: {longestStreak}
       </Typography>
     </Paper>
   );

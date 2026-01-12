@@ -1,10 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import habitsReducer from "./habitSlice";
+import debugReducer from "./debugSlice";
+import { debugMiddleware } from "./debugMiddleware";
 
 const store = configureStore({
   reducer: {
-    habits: habitsReducer
+    habits: habitsReducer,
+    debug: debugReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(debugMiddleware)
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
