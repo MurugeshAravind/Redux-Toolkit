@@ -1,24 +1,57 @@
+# Dependencies
+# This directory contains all of your project's downloaded dependencies.
+# It can be very large and should always be ignored.
+node_modules/
+
+# Testing
+# This directory is created by testing frameworks like Jest to store code coverage reports. [8, 14]
+coverage/
+
+# Other test coverage-related output directories. [3, 18]
+.nyc_output/
+
+# Jest cache
+.jest-cache/
+
+# Build output
+# This directory contains the compiled, production-ready code from tools like Create React App or Vite. [14, 17]
+build/
+dist/
+
 # Logs
-logs
+# Various log files that can be generated during development or if errors occur. [2, 14]
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Environment variables
+# These files contain environment-specific variables and often sensitive secrets like API keys.
+# It is critical to ignore them to avoid exposing credentials. [2, 14, 18]
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Caches
+# Caching directories for various tools to improve performance. [2, 3]
+.npm/
+.eslintcache
+.parcel-cache
+
+# OS-generated files
+# System-specific hidden files that don't belong in the repository.
+.DS_Store
+Thumbs.db
 
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
+# User-specific settings for code editors like VS Code or JetBrains IDEs. [20, 22]
+.idea/
+.vscode/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?

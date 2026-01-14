@@ -1,7 +1,19 @@
 {
   "files": [],
   "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ],
+  "compilerOptions": {
+    "target": "es6",
+    "jsx": "react-jsx",
+    "module": "commonjs",
+    "lib": ["dom", "ES2019"],
+    "types": ["jest", "@testing-library/jest-dom", "node"],
+    "noEmit": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-type DebugAction = {
+export type DebugAction = {
     type: string;
     payload?: unknown;
     timestamp: number;
